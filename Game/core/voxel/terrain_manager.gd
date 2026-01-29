@@ -26,7 +26,7 @@ var mesh_update_queue: Array[Vector3i] = []
 var player: Node3D = null
 
 ## Генератор мира
-var world_generator = null
+var world_generator: WorldGenerator = null
 
 ## Регистр блоков
 var block_registry: Dictionary = {}
@@ -51,6 +51,9 @@ func _ready() -> void:
 	
 	# Инициализируем регистр блоков
 	_initialize_block_registry()
+	
+	# Создаем генератор мира
+	world_generator = WorldGenerator.new(GameManager.world_info.get("seed", 0))
 	
 	# Запускаем поток генерации если нужно
 	if use_threading:
@@ -120,6 +123,78 @@ func _initialize_block_registry() -> void:
 		"name": "Leaves",
 		"hardness": 0.2,
 		"is_transparent": true
+	})
+	
+	register_block("sand", {
+		"name": "Sand",
+		"hardness": 0.5,
+		"tool_type": "shovel"
+	})
+	
+	register_block("snow", {
+		"name": "Snow",
+		"hardness": 0.2,
+		"tool_type": "shovel"
+	})
+	
+	register_block("water", {
+		"name": "Water",
+		"hardness": 100.0,
+		"is_transparent": true,
+		"is_walkthrough": true
+	})
+	
+	register_block("bedrock", {
+		"name": "Bedrock",
+		"hardness": -1.0
+	})
+	
+	register_block("coal_ore", {
+		"name": "Coal Ore",
+		"hardness": 3.0,
+		"tool_type": "pickaxe",
+		"drop_item": "coal"
+	})
+	
+	register_block("iron_ore", {
+		"name": "Iron Ore",
+		"hardness": 3.0,
+		"tool_type": "pickaxe",
+		"tool_level": 1
+	})
+	
+	register_block("gold_ore", {
+		"name": "Gold Ore",
+		"hardness": 3.0,
+		"tool_type": "pickaxe",
+		"tool_level": 2
+	})
+	
+	register_block("diamond_ore", {
+		"name": "Diamond Ore",
+		"hardness": 3.0,
+		"tool_type": "pickaxe",
+		"tool_level": 2,
+		"drop_item": "diamond"
+	})
+	
+	register_block("stone_bricks", {
+		"name": "Stone Bricks",
+		"hardness": 1.5,
+		"tool_type": "pickaxe"
+	})
+	
+	register_block("chest", {
+		"name": "Chest",
+		"hardness": 2.5,
+		"tool_type": "axe"
+	})
+	
+	register_block("torch", {
+		"name": "Torch",
+		"hardness": 0.0,
+		"is_transparent": true,
+		"light_level": 14
 	})
 
 
